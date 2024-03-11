@@ -1,6 +1,7 @@
 import * as THREE from "three";
-import WebGL from "three/examples/jsm/capabilities/WebGL";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+//@ts-ignore
+import WebGL from "three/addons/capabilities/WebGL.js";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -9,7 +10,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 50;
+camera.lookAt(0, 0, 5);
 const renderer = new THREE.WebGLRenderer();
 const loader = new GLTFLoader();
 
@@ -17,9 +18,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 loader.load(
-  "./models/sun/scene.gltf",
-  (gltf) => {
-    console.log("success");
+  "assets/earth/scene.gltf",
+  (gltf: GLTF) => {
     scene.add(gltf.scene);
   },
   undefined,

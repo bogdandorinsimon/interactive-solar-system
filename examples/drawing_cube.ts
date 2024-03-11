@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import WebGL from "three/examples/jsm/capabilities/WebGL";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+//@ts-ignore
+import WebGL from "three/addons/capabilities/WebGL.js";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -9,27 +9,25 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.z = 50;
 const renderer = new THREE.WebGLRenderer();
-const loader = new GLTFLoader();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-loader.load(
-  "./models/sun/scene.gltf",
-  (gltf) => {
-    console.log("success");
-    scene.add(gltf.scene);
-  },
-  undefined,
-  (error) => {
-    console.error(error);
-  }
-);
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+const cube = new THREE.Mesh(geometry, material);
+
+scene.add(cube);
+camera.position.z = 5;
 
 function animate() {
+  // this will run every frame - normally 60 times per second - hence creating an infinite loop
   requestAnimationFrame(animate);
+
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
 
   renderer.render(scene, camera);
 }
